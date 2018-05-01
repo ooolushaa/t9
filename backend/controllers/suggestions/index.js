@@ -4,7 +4,19 @@ var express = require('express')
 router.get('/', function(req, res) {
   const nums = req.query.nums;
   console.log(nums);
-  res.send('Hello World!')
+
+  const response = {
+    ok: true,
+    suggestions: [
+      'hello',
+      'world',
+      'fuzz',
+      'buzz'
+    ],
+    error: null,
+  }
+
+  res.send(response)
 })
 
 module.exports = router
