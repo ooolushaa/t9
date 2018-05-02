@@ -1,6 +1,9 @@
-const express = require('express')
-const app = express()
+const express = require('express');
+const app = express();
 
-app.use(require('./controllers'))
+const cors = require('cors');
+app.use(cors({origin: 'http://localhost:3000'}));
 
-app.listen(3001, () => console.log('Example app listening on port 3001!'))
+app.use(require('./controllers'));
+
+app.listen(3001, () => console.log('Example app listening on port 3001!'));

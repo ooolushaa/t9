@@ -1,22 +1,40 @@
-var express = require('express')
-  , router = express.Router()
+const T9 = require('../../services/t9');
+const express = require('express');
+const router = express.Router();
 
 router.get('/', function(req, res) {
-  const nums = req.query.nums;
-  console.log(nums);
+  let ok = true;
+  let suggestions = [];
+  let error = null;
 
-  const response = {
-    ok: true,
-    suggestions: [
-      'hello',
-      'world',
-      'fuzz',
-      'buzz'
-    ],
-    error: null,
+  const numbers = req.query.numbers;
+
+  if (!numbers) {
+    ok = false;
+    error = "Numbers can not be empty";
   }
 
-  res.send(response)
+  if (ok && isNaN(numbers)) {
+    ok = false;
+    error = "Not a number";
+  }
+
+  if(ok && numbers.indexOf(1) > -1) {
+    ok = false;
+    error = "Number string should not contains 1";
+  }
+
+  if (ok) {
+    suggestions = T9.processNumbers(numbers);
+  }
+
+  const response = {
+    ok,
+    suggestions,
+    error,
+  }
+
+  res.send(response);
 })
 
-module.exports = router
+module.exports = router;

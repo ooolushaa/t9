@@ -1,6 +1,6 @@
-var express = require('express')
-  , router = express.Router()
+const express = require('express');
+const router = express.Router();
 
-router.use('/suggestions', require('./suggestions'))
+router.use('/suggestions', require('./suggestions'));
 
-module.exports = router
+module.exports = router;

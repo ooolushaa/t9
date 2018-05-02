@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
-import Numpad from '../Numpad';
+import Numpad from '../Numpad/Numpad';
+import { getSuggestions } from '../../services/api';
 
 const Container = styled.div`
   display: flex;
@@ -19,8 +20,11 @@ const Block = styled.div`
 
 const Screen = styled.div`
   display: flex;
-  width: 100%;
+  max-width: 100%;
   height: 200px;
+  margin: 20px;
+  flex-wrap: wrap;
+  overflow: scroll;
 `;
 
 const KeysMapping = [
@@ -63,22 +67,36 @@ const KeysMapping = [
 ];
 
 class MainScreen extends Component {
-  constructor(props) {
-    super(props);
+  constructor() {
+    super();
 
     this.state = {
       numberString: '',
+      suggestions: [],
     };
 
     this.onClickNumberHandler = this.onClickNumberHandler.bind(this);
+    this.sendSuggestionRequest = this.sendSuggestionRequest.bind(this);
   }
 
-  onClickNumberHandler (number) {
-   this.setState(prevState => {
-     return {
-       numberString: prevState.numberString + number,
-     };
-   });
+  onClickNumberHandler(number) {
+    this.setState(prevState => ({
+      numberString: prevState.numberString + number,
+    }), () => {
+      this.sendSuggestionRequest();
+    });
+  }
+
+  sendSuggestionRequest() {
+    getSuggestions(this.state.numberString).then((response) => {
+      if (response.data.ok) {
+        this.setState({
+          suggestions: response.data.suggestions,
+        });
+      }
+    }).catch((err) => {
+      throw err;
+    });
   }
 
   render() {
@@ -86,9 +104,14 @@ class MainScreen extends Component {
       <Container>
         <Block>
           <Screen>
-            {this.state.numberString}
+            {this.state.suggestions.map((suggestion, i) => (
+              <span key={suggestion}>
+                {suggestion}
+                {i !== this.state.suggestions.length - 1 && (<span>,&nbsp;</span>)}
+              </span>
+            ))}
           </Screen>
-          <Numpad keys={KeysMapping} onClickNumberHandler={this.onClickNumberHandler} clearNumberString={() => { this.setState({ numberString: '' }); }} />
+          <Numpad keys={KeysMapping} onClickNumberHandler={this.onClickNumberHandler} clearNumberString={() => { this.setState({ numberString: '', suggestions: [] }); }} />
         </Block>
       </Container>
     );

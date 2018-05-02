@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
 const Container = styled.div`
@@ -25,13 +26,13 @@ const Symbols = styled.div`
 `;
 
 class Key extends Component {
-  constructor(props) {
-    super(props);
+  constructor() {
+    super();
 
     this.onClick = this.onClick.bind(this);
   }
 
-  onClick () {
+  onClick() {
     if (this.props.symbols !== '') {
       this.props.onClickHandler();
     }
@@ -50,5 +51,11 @@ class Key extends Component {
     );
   }
 }
+
+Key.propTypes = {
+  number: PropTypes.number.isRequired,
+  symbols: PropTypes.string.isRequired,
+  onClickHandler: PropTypes.func.isRequired,
+};
 
 export default Key;

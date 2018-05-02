@@ -1,4 +1,5 @@
-import React, { Component } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
 const Container = styled.div`
@@ -15,14 +16,14 @@ const Container = styled.div`
   cursor: pointer;
 `;
 
-class DeleteKey extends Component {
-  render() {
-    return (
-      <Container onClick={this.props.onClickHandler}>
-        Delete
-      </Container>
-    );
-  }
-}
+const DeleteKey = ({ onClickHandler }) => (
+  <Container onClick={onClickHandler}>
+    Delete
+  </Container>
+);
+
+DeleteKey.propTypes = {
+  onClickHandler: PropTypes.func.isRequired,
+};
 
 export default DeleteKey;

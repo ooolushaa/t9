@@ -1,7 +1,6 @@
-import React, { Component } from 'react';
+import React from 'react';
 import styled from 'styled-components';
-import { API_ROOT } from './configs/api';
-import MainScreen from "./Components/MainScreen";
+import MainScreen from './Components/MainScreen/MainScreen';
 
 const Main = styled.div`
   display: flex;
