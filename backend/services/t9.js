@@ -10,6 +10,10 @@ const keyMap = {
 };
 
 exports.processNumbers = numbersString => {
+  if (!numbersString || isNaN(numbersString) || numbersString.indexOf(1) > -1) {
+    throw "Not valid number string";
+  }
+
   const suggestions = generateStringFromNumbersString(numbersString);
 
   return suggestions;
@@ -20,6 +24,7 @@ const generateStringFromNumbersString = numbersString => {
     return parseInt(n);
   });
 
+  // recursion first init
   return generateStringFromNumbers(numbers.slice(1), keyMap[numbers[0]].split(""));
 }
 
@@ -30,10 +35,10 @@ const generateStringFromNumbers = (numbers, genAccumulator) => {
 
   const keys = keyMap[numbers[0]].split("");
 
-  const nextRet = keys.reduce((accumulator, k) => {
+  const nextGetAccumulator = keys.reduce((accumulator, k) => {
     return accumulator.concat(genAccumulator.map(g => g.concat(k)));
   }, []);
 
 
-  return generateStringFromNumbers(numbers.slice(1), nextRet);
+  return generateStringFromNumbers(numbers.slice(1), nextGetAccumulator);
 }
