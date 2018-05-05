@@ -9,23 +9,11 @@ router.get('/', function(req, res) {
 
   const numbers = req.query.numbers;
 
-  if (!numbers) {
-    ok = false;
-    error = "Numbers can not be empty";
-  }
-
-  if (ok && isNaN(numbers)) {
-    ok = false;
-    error = "Not a number";
-  }
-
-  if(ok && numbers.indexOf(1) > -1) {
-    ok = false;
-    error = "Number string should not contains 1";
-  }
-
-  if (ok) {
+  try {
     suggestions = T9.processNumbers(numbers);
+  } catch (err) {
+    ok = false;
+    error = "Not valid number string";
   }
 
   const response = {
