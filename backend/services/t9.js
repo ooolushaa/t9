@@ -10,7 +10,7 @@ const keyMap = {
 };
 
 exports.processNumbers = numbersString => {
-  if (!numbersString || isNaN(numbersString) || numbersString.indexOf(1) > -1) {
+  if (!numbersString || isNaN(numbersString) || numbersString.indexOf(1) > -1 || numbersString.indexOf(0) > -1) {
     throw "Not valid number string";
   }
 

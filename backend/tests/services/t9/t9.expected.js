@@ -761,6 +761,7 @@ const T9ExpectedResults = [
   new T9VO("not valid number string", "Not valid number string", true),
   new T9VO("1112   1asdasd", "Not valid number string", true),
   new T9VO("2342341", "Not valid number string", true),
+  new T9VO("2342340", "Not valid number string", true),
   new T9VO("", "Not valid number string", true),
 ];
 
